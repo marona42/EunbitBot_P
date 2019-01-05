@@ -1,4 +1,4 @@
-import discord				#https://github.com/Rapptz/discord.py	http://mandu-mandu.tistory.com/64
+import discord				#https://github.com/Rapptz/discord.py	
 import websockets #for Slack
 from slacker import Slacker	#for Slack
 import socket	#for IRC
@@ -10,13 +10,6 @@ import sys
 from charactercore import core
 import potato
 
-#싱글톤 메타클래스
-class Singleton(type):
-    _instances = {}
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
 
 class AlreadyConnectedError(Exception):
 	def __init__(self,message):

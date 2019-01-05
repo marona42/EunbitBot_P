@@ -1,7 +1,5 @@
 #coding=utf-8
 #export PYTHONIOENCODING=utf-8
-#봇이 은빛으로 구르기 위해 필요한것만!
-
 import sys
 
 import centralcore
