@@ -1,4 +1,4 @@
-import discord				#https://github.com/Rapptz/discord.py	
+import discord
 import websockets #for Slack
 from slacker import Slacker	#for Slack
 import socket	#for IRC
@@ -9,7 +9,6 @@ import sys
 
 from charactercore import core
 import potato
-
 
 class AlreadyConnectedError(Exception):
 	def __init__(self,message):
@@ -47,7 +46,10 @@ class Slack(IOmodule_blueprint):
 				self.commands=self.message.get('text').split()
 				try:
 					if self.commands[0][1:] in core._목록():
-						self.out_message(self.message['channel'],getattr(core,self.commands[0][1:])(self.message))
+						if self.commands[0][1:] in core._o목록():		#o목록에 o함수들이 정리되어있음
+							await self.out_message(self.message_d['channel'],getattr(core,'o'+self.commands[0][1:])(self.message_d),self.message_d) #o붙여서 호출!
+						else:
+							await getattr(core,self.commands[0][1:])(self.message_d,self)			#message caller 넘겨줌
 					else:
 						self.out_message(self.message['channel'],self.message.get('text')[0][1:]+core._몰랑())
 				except Exception as e:
@@ -91,12 +93,15 @@ class Discord(IOmodule_blueprint,discord.Client):
 			self.commands=str(message.content).split()
 			try:
 				if self.commands[0][1:] in core._목록():
-					await self.out_message(self.message_d['channel'],getattr(core,self.commands[0][1:])(self.message_d),self.message_d)
+					if self.commands[0][1:] in core._o목록():		#o목록에 o함수들이 정리되어있음
+						await self.out_message(self.message_d['channel'],getattr(core,'o'+self.commands[0][1:])(self.message_d),self.message_d) #o붙여서 호출!
+					else:
+						await getattr(core,self.commands[0][1:])(self.message_d,self)			#caller로 클래스를 넘겨줌
 				else:
-					await self.out_message(self.message_d['channel'],self.message_d['text'][0][1:]+core._몰랑())
+					await self.out_message(self.message_d['channel'],self.commands[0][1:]+core._몰랑())
 			except Exception as e:
 					await self.out_message(self.message_d['channel'],e)
-					await self.out_message(self.message_d['channel'],"아얏... >_<")
+					await self.out_message(self.message_d['channel'],"")#에러메세지 발생 알림 멘트
 				
 			#await client.send_message(message.channel, 'leave message')		#반응받기
 			#msg = await client.wait_for_message(timeout=15.0, author=message.author)
