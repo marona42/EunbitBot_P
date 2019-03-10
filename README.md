@@ -1,5 +1,5 @@
 # EunbitBot_P
-public EunbitBot without tokens and private things
+public [EunbitBot](https://github.com/marona42/EunBitBot) without tokens and private things
 
 used library "[slacker](https://github.com/os/slacker)", "[discord.py](https://github.com/Rapptz/discord.py)" to support platforms
 
